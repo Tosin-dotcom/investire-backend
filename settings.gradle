@@ -1,0 +1,5 @@
+rootProject.name = 'investire'
+include 'commons'
+include 'dao'
+include 'app'
+
