@@ -1,4 +1,4 @@
-package com.tosin.investire.security.dto;
+package com.tosin.investire.user.dto;
 
 
 import lombok.*;
@@ -10,11 +10,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TokenDetails {
+public class UserDto {
 
     private UUID id;
+    private String email;
     private String firstName;
     private String lastName;
-    private String email;
+    private String password;
+
 
 }

@@ -26,7 +26,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.springframework.boot:spring-boot-starter-jooq'
-    implementation 'org.jooq:jooq:3.20.3'
+    implementation 'org.jooq:jooq:3.19.8'
     implementation 'org.jooq:jooq-codegen:3.18.6'
     implementation 'org.jibx:jibx-tools:1.4.2'
     implementation 'org.modelmapper:modelmapper:3.2.2'

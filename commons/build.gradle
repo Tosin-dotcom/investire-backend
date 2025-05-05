@@ -7,3 +7,7 @@ plugins {
 apply from: rootProject.file('common-conventions.gradle')
 
 
+
+dependencies {
+    implementation project(":dao")
+}

@@ -4,5 +4,6 @@
   <includeAll path="liquibase/db/changelog"/>
 
  <include file="liquibase/changelog/2025/202504/20250428123200_create_users_table.sql" relativeToChangelogFile="false"/>
+  <include file="liquibase/changelog/2025/202504/20250430144800_modify_user_table.sql" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

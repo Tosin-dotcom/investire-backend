@@ -1,14 +1,18 @@
 package com.tosin.investire.security.service;
 
 import com.tosin.investire.commons.Constants;
+import com.tosin.investire.security.dto.AuthUserDetails;
 import com.tosin.investire.security.dto.TokenDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -17,6 +21,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.tosin.investire.commons.Constants.AUTH_TOKEN_COOKIE;
 
 
 @RequiredArgsConstructor
@@ -29,13 +35,13 @@ public class SecurityService {
     public String secretKey;
 
 
-    private String generateToken(TokenDetails tokenDetails, String email) {
+    public String generateToken(TokenDetails tokenDetails) {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put(Constants.USER, tokenDetails);
         return Jwts.builder()
                 .claims(claims)
-                .subject(email)
+                .subject(tokenDetails.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(Date.from(Instant.now().plus(40, ChronoUnit.HOURS)))
                 .signWith(getSignKey())
@@ -60,4 +66,23 @@ public class SecurityService {
     }
 
 
+    public UserDetails extractUserDetails(String token) {
+
+        TokenDetails tokenDetails = extractTokenDetails(token);
+        return AuthUserDetails.builder()
+                .username(tokenDetails.getEmail())
+                .build();
+    }
+
+    public String getAuthToken(HttpServletRequest request) {
+
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (AUTH_TOKEN_COOKIE.equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
 }
