@@ -30,6 +30,7 @@ import static com.tosin.investire.commons.Constants.AUTH_TOKEN_COOKIE;
 public class SecurityService {
 
     private final ModelMapper modelMapper;
+    private final HttpServletRequest request;
 
     @Value("${investire.secret-key}")
     public String secretKey;
@@ -65,6 +66,11 @@ public class SecurityService {
         return modelMapper.map(claims.get(Constants.USER, Map.class), TokenDetails.class);
     }
 
+    public TokenDetails getUserDetails() {
+
+        String authToken = getAuthToken();
+        return extractTokenDetails(authToken);
+    }
 
     public UserDetails extractUserDetails(String token) {
 
@@ -74,7 +80,7 @@ public class SecurityService {
                 .build();
     }
 
-    public String getAuthToken(HttpServletRequest request) {
+    public String getAuthToken() {
 
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -85,4 +91,6 @@ public class SecurityService {
         }
         return null;
     }
+
+
 }

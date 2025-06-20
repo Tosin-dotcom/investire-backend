@@ -6,7 +6,6 @@ import com.tosin.investire.commons.model.Request;
 import com.tosin.investire.commons.model.Response;
 import com.tosin.investire.security.dto.TokenDetails;
 import com.tosin.investire.user.dto.UserDto;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,13 +42,11 @@ public class AuthenticationController {
     public ResponseEntity<Response<TokenDetails>> loginUser(@RequestBody Request<LoginDto> request,
             HttpServletResponse response) {
 
-        TokenDetails tokenDetails = authenticationService.loginUser(request.getBody());
-        Cookie authTokenCookie = authenticationService.createAuthTokenCookie(tokenDetails);
+        TokenDetails tokenDetails = authenticationService.loginUser(request.getBody(), response);
         Response<TokenDetails> apiResponse = Response.<TokenDetails>builder()
                 .body(tokenDetails)
                 .status(true)
                 .build();
-        response.addCookie(authTokenCookie);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

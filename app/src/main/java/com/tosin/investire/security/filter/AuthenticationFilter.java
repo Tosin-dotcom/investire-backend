@@ -26,7 +26,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String token = securityService.getAuthToken(request);
+        String token = securityService.getAuthToken();
         if (StringUtils.hasText(token)) {
             UserDetails userDetails = securityService.extractUserDetails(token);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(

@@ -8,6 +8,7 @@ import com.tosin.investire.security.service.SecurityService;
 import com.tosin.investire.user.UserService;
 import com.tosin.investire.user.dto.UserDto;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +34,7 @@ public class AuthenticationService {
         return userService.createNewUser(userDto);
     }
 
-    public TokenDetails loginUser(LoginDto loginDto) {
+    public TokenDetails loginUser(LoginDto loginDto, HttpServletResponse response) {
 
         UserDto userDto = userService.getOptionalUserByEmail(loginDto.getEmail())
                 .orElseThrow(() -> new InvestireException(HttpStatus.FORBIDDEN, LOGIN_ERROR_MESSAGE));
@@ -41,22 +42,25 @@ public class AuthenticationService {
         if (!matches) {
             throw new InvestireException(HttpStatus.FORBIDDEN, LOGIN_ERROR_MESSAGE);
         }
-        return TokenDetails.builder()
+        TokenDetails tokenDetails= TokenDetails.builder()
                 .email(userDto.getEmail())
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
                 .build();
+        Cookie cookie = createAuthTokenCookie(tokenDetails);
+        response.addCookie(cookie);
+        return tokenDetails;
     }
 
-
-    public Cookie createAuthTokenCookie(TokenDetails tokenDetails) {
+    private Cookie createAuthTokenCookie(TokenDetails tokenDetails) {
 
         String authenticationToken = securityService.generateToken(tokenDetails);
         Cookie cookie = new Cookie(AUTH_TOKEN_COOKIE, authenticationToken);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true); // Set to false if testing locally without HTTPS
+        cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge(7 * 24 * 60 * 60);
+        cookie.setMaxAge(2 * 24 * 60 * 60);
+
         return cookie;
     }
 

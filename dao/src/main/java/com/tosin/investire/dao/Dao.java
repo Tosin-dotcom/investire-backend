@@ -1,15 +1,14 @@
-package com.tosin.investire;
+package com.tosin.investire.dao;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableFeignClients
-public class Investire {
+public class Dao {
 
     public static void main(String[] args) {
-        SpringApplication.run(Investire.class, args);
+        SpringApplication.run(Dao.class, args);
     }
+
 
 }
