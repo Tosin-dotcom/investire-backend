@@ -2,9 +2,9 @@ package com.tosin.investire.market;
 
 
 import com.tosin.investire.client.dto.AssetDetailDto;
-import com.tosin.investire.client.dto.CoinGeckoResponseDto;
 import com.tosin.investire.commons.model.Response;
 import com.tosin.investire.market.dto.AssetType;
+import com.tosin.investire.market.dto.GlobalMarketData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +32,12 @@ public class MarketController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("crypto-market-cap")
-    public ResponseEntity<Response<CoinGeckoResponseDto>> getCryptoMarketCap() {
+    @GetMapping("cap")
+    public ResponseEntity<Response<GlobalMarketData>> getCryptoMarketCap(@RequestParam AssetType type) {
 
-        CoinGeckoResponseDto cryptoMarketCap = marketService.getCryptoMarketCap();
-        Response<CoinGeckoResponseDto> response = Response.<CoinGeckoResponseDto>builder()
-                .body(cryptoMarketCap)
+        GlobalMarketData globalMarketData = marketService.getCryptoMarketCap().getData();
+        Response<GlobalMarketData> response = Response.<GlobalMarketData>builder()
+                .body(globalMarketData)
                 .status(true)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
