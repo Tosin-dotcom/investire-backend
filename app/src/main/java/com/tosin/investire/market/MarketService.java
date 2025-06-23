@@ -33,6 +33,8 @@ public class MarketService {
             if (profiles == null || profiles.isEmpty()) {
                 throw new InvestireException(HttpStatus.BAD_REQUEST, "Invalid company symbol");
             }
+            profiles.get(0).setPercentChange(profiles.get(0).getChanges());
+            profiles.get(0).setVolume(profiles.get(0).getVolAvg());
             return profiles.get(0);
         } else {
             return getCryptoData(symbol);

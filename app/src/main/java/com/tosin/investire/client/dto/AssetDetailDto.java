@@ -28,7 +28,9 @@ public class AssetDetailDto {
     private String overview;
     private String background;
     private String technology;
+    private double changes;
     private boolean isActivelyTrading;
+    private long volAvg;
 
     private double percentChange;
     private double volume;
