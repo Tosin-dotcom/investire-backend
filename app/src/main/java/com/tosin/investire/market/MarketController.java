@@ -1,9 +1,10 @@
 package com.tosin.investire.market;
 
 
-import com.tosin.investire.client.dto.CompanyProfileDto;
+import com.tosin.investire.client.dto.AssetDetailDto;
+import com.tosin.investire.client.dto.CoinGeckoResponseDto;
 import com.tosin.investire.commons.model.Response;
-import com.tosin.investire.market.dto.MarketType;
+import com.tosin.investire.market.dto.AssetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +20,26 @@ public class MarketController {
     private final MarketService marketService;
 
     @GetMapping("asset/{symbol}")
-    public ResponseEntity<Response<CompanyProfileDto>> getCompanyProfile(@PathVariable String symbol, @RequestParam
-            MarketType type) {
+    public ResponseEntity<Response<AssetDetailDto>> getCompanyProfile(@PathVariable String symbol, @RequestParam
+    AssetType type) {
 
-        CompanyProfileDto companyProfile = marketService.getCompanyProfile(type, symbol);
-        Response<CompanyProfileDto> response = Response.<CompanyProfileDto>builder()
-                .body(companyProfile)
+        AssetDetailDto assetDetails = marketService.getAssetDetails(type, symbol);
+        Response<AssetDetailDto> response = Response.<AssetDetailDto>builder()
+                .body(assetDetails)
                 .status(true)
                 .build();
 
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("crypto-market-cap")
+    public ResponseEntity<Response<CoinGeckoResponseDto>> getCryptoMarketCap() {
+
+        CoinGeckoResponseDto cryptoMarketCap = marketService.getCryptoMarketCap();
+        Response<CoinGeckoResponseDto> response = Response.<CoinGeckoResponseDto>builder()
+                .body(cryptoMarketCap)
+                .status(true)
+                .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

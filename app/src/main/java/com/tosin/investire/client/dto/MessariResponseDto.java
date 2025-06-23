@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class MessariResponseDto {
 
     private Status status;
-    private CompanyProfileDto data;
+    private AssetDetailDto data;
 
 
     @Getter

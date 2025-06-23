@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CompanyProfileDto {
+public class AssetDetailDto {
 
     private String symbol;
     private long mktCap;

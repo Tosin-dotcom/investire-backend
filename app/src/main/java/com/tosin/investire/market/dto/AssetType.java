@@ -1,6 +1,6 @@
 package com.tosin.investire.market.dto;
 
-public enum MarketType {
+public enum AssetType {
 
     STOCK,
     CRYPTO;
