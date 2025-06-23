@@ -34,8 +34,21 @@ public class MarketService {
             }
             return profiles.get(0);
         } else {
-            return messariClient.getCryptoInfo(symbol).getData();
+            return getCryptoData(symbol);
         }
+    }
+
+
+    private CompanyProfileDto getCryptoData(String symbol) {
+
+        CompanyProfileDto cryptoProfile = messariClient.getCryptoInfo(symbol).getData();
+        CompanyProfileDto cryptoMetrics = messariClient.getCryptoMetric(symbol).getData();
+
+        cryptoProfile.setPercentChange(cryptoMetrics.getMarketData().getPercentChange());
+        cryptoProfile.setVolume(cryptoMetrics.getMarketData().getVolume());
+        cryptoProfile.setRank(cryptoMetrics.getMarketCap().getRank());
+        cryptoProfile.setMktCap(cryptoMetrics.getMarketCap().getCap());
+        return cryptoProfile;
     }
 
 

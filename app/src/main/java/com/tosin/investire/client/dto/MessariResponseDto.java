@@ -18,7 +18,6 @@ public class MessariResponseDto {
     private CompanyProfileDto data;
 
 
-
     @Getter
     @Setter
     @NoArgsConstructor

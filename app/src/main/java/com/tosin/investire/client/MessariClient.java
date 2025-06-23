@@ -13,4 +13,7 @@ public interface MessariClient {
     @GetMapping("/assets/{symbol}/profile")
     MessariResponseDto getCryptoInfo(@PathVariable("symbol") String symbol);
 
+    @GetMapping("/assets/{symbol}/metrics")
+    MessariResponseDto getCryptoMetric(@PathVariable("symbol") String symbol);
+
 }

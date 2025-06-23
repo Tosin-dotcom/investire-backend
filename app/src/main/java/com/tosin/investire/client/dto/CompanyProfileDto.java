@@ -2,6 +2,7 @@ package com.tosin.investire.client.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -28,6 +29,49 @@ public class CompanyProfileDto {
     private String background;
     private String technology;
     private boolean isActivelyTrading;
+
+    private double percentChange;
+    private double volume;
+
+    private int rank;
+
+    @JsonProperty("market_data")
+    private MarketData marketData;
+
+    @JsonProperty("marketcap")
+    private MarketCap marketCap;
+
+
+
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class MarketData {
+        @JsonProperty("percent_change_usd_last_24_hours")
+        private double percentChange;
+        @JsonProperty("volume_last_24_hours")
+        private double volume;
+    }
+
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class MarketCap {
+        private int rank;
+        @JsonProperty("current_marketcap_usd")
+        private long cap;
+    }
+
+
+
 
 
 }

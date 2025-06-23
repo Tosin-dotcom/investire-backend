@@ -18,7 +18,7 @@ public class MarketController {
 
     private final MarketService marketService;
 
-    @GetMapping("company-profile/{symbol}")
+    @GetMapping("asset/{symbol}")
     public ResponseEntity<Response<CompanyProfileDto>> getCompanyProfile(@PathVariable String symbol, @RequestParam
             MarketType type) {
 
