@@ -8,6 +8,7 @@ import com.tosin.investire.client.dto.AssetDetailDto;
 import com.tosin.investire.client.dto.CoinGeckoResponseDto;
 import com.tosin.investire.commons.exception.InvestireException;
 import com.tosin.investire.market.dto.AssetType;
+import com.tosin.investire.market.dto.MarketCapDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,10 @@ public class MarketService {
     private final CoinGeckoClient coinGeckoClient;
 
     @Value("${fmp.api.key}")
-    public String fmpApiKey;
+    private String fmpApiKey;
+
+    @Value("${coingecko.api-key}")
+    private String coingeckoApiKey;
 
     public AssetDetailDto getAssetDetails(AssetType assetType, String symbol) {
 
@@ -42,9 +46,15 @@ public class MarketService {
     }
 
 
-    public CoinGeckoResponseDto getCryptoMarketCap() {
+    public MarketCapDto getCryptoMarketCap() {
 
-        return coinGeckoClient.getCryptoMarketCap();
+        CoinGeckoResponseDto cryptoMarketCap = coinGeckoClient.getCryptoMarketCap(coingeckoApiKey);
+        return MarketCapDto.builder()
+                .marketCap(cryptoMarketCap.getData().getGlobalMarketCap().getUsd())
+                .percentChange(cryptoMarketCap.getData().getMarketCapPercentageChange())
+                .volume(cryptoMarketCap.getData().getTotalVolume().getUsd())
+                .build();
+
     }
 
     private AssetDetailDto getCryptoData(String symbol) {

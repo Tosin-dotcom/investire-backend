@@ -16,6 +16,8 @@ public class GlobalMarketData {
     private GlobalMarketCap globalMarketCap;
     @JsonProperty("market_cap_change_percentage_24h_usd")
     private double marketCapPercentageChange;
+    @JsonProperty("total_volume")
+    private TotalVolume totalVolume;
 
 
     @Getter
@@ -25,6 +27,18 @@ public class GlobalMarketData {
     @Builder
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class GlobalMarketCap {
+
+        private long usd;
+    }
+
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class TotalVolume {
 
         private long usd;
     }
